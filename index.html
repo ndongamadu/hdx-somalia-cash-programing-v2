@@ -4,6 +4,7 @@
     <title>HDX Somalia Cash</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='icon' type='image/png' href='https://data.humdata.org/images/icons/hdx.ico' />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/dc.css" />
     <link rel="stylesheet" type="text/css" href="css/site.css" />
@@ -15,6 +16,7 @@
     <script src="js/jquery.js"></script>
     <script src="js/d3.min.js"></script>
     <script src="js/d3.tip.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <script src="js/crossfilter.v1.min.js"></script>
     <script src="js/dc.js"></script>
     <script src="js/leaflet.js"></script>
@@ -30,12 +32,12 @@
                 <h1 class="header">Cash Based Programming in Somalia<span class="pull-right"><a href="https://data.humdata.org/dataset/cash-based-programming-in-somalia-2018" target="_blank">See the dataset on HDX</a></span></h1>
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
-                <span class="justify">The snapshot below represents the cash and vouchers assistance (CVA) reported to the inter-cluster coordination group from January to December 2019. 
-                    The needs for humanitarian cash assistance started to increase in July due to the cumulative effects of the 2018 Deyr (drought conditions), and 2019 Gu's below rain average, which exacerbated food security and nutrition situations. 
-                    Cash assistance reached its peak in August supporting 1.6 million beneficiaries with a total of 125 million USD. The biggest recipients of CVA in the last half of 2019 are vulnerable people in Bay, Galgaduud and Mudug (July to September 2019) and Bay, Hiraan and Awdal in the last quarter of 2019 (October to December 2019). 
-                    The majority of CVA used in Somalia is to address food insecurity and nutrition crises. However, it is worth noting that the food security cluster has been responsible for collecting multipurpose cash assistance (MPCA) data provided for humanitarian aid, this includes assistance exceeding the value of the food MEB and projects with multisectoral objectives. 
-                    In the first quarter of 2020, OCHA will provide IM support to the national Cash Working Group (CWG) to coordinate the reporting of MPCA. As such, the snapshot will make the distinction between MPCA supporting sectoral objectives and assistance covering multiple needs.
-                </span>
+                <span class="justify">
+                    The snapshot below represents the cash and vouchers assistance (CVA) reported to the Somalia Cash Working Group and individual clusters on a monthly basis. 
+                    The snapshot makes a distinction between CVA supporting sectoral objectives (cash use by different clusters) and assistance covering multiple needs (multi-purpose cash assistance – MPCA). 
+                    Because data reported to the Clusters is linked to tracking against targets set in the Humanitarian Response Plan, we appreciate that some MPCA might also be reported as sectoral cash, especially to the Food Security Cluster, taking into consideration that the majority of CVA used in Somalia is used to address food insecurity and nutrition crises. 
+                    In the month of July, the Food Security Cluster reports the largest use of CVA in its response, followed by WASH, CCCM and Protection clusters. The MPCA reporting captures current and planned cash programming until the end of the year.
+               </span>
             </div>
             <div class="col-md-1 col-sm-4 col-xs-4">
                 <h4>Month</h4>
@@ -130,12 +132,21 @@
                     <div id="filterMechanism"></div>
                 </div>
             </div>
+
+            <!--  redesign-->
             <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h4>Cash transfer by region (No. individuals)</h4>
-                    <div id="regionalCash"></div>
+
+                <div class="col-md-4">
+                    <h4>Top 15 cash transfer by partner</h4>
+                    <div id="hdx-3W-who" class="hdx-3w-chart"></div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
+
+                <div class="col-md-4">
+                    <h4>Cash transfer by region (No. individuals)</h4>
+                    <div id="regionalCash"  class="hdx-3w-chart"></div>
+                </div>
+
+                <div class="col-md-4">
                     <div class="row">
                         <h4>Cash transfer by district <a class="reset pull-right" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Clear filters</a></h4>
                         <div id="hdx-3W-where" class="hdx-3w-chart"></div>
@@ -143,17 +154,48 @@
                     </div>
                 </div>
             </div>
+
+            <!--  redesign-->
+
             <div class="row">
+<!--                 <div class="col-md-6 col-sm-12 col-xs-12">
+                    <h4>Cash transfer by region (No. individuals)</h4>
+                    <div id="regionalCash"></div>
+                </div> -->
                 <div class="col-md-6 col-sm-12 col-xs-12">
+<!--                     <div class="row">
+                        <h4>Cash transfer by district <a class="reset pull-right" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Clear filters</a></h4>
+                        <div id="hdx-3W-where" class="hdx-3w-chart"></div>
+                        <p class="small">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the United Nations.</p>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Cash transfer by cluster (No. individuals)</h4>
+                    <div id="hdx-3W-what" class="hdx-3w-chart"></div>
+                </div>
+                <div class="col-md-4">
+                    <h4>MPCA projections</h4>
+                    <img src="proj.svg" alt="">
+                </div>
+                <div class="col-md-4">
+                    <h4>IPC projections</h4>
+                    <div id="ipcmap"></div>
+                </div>
+            </div>
+            <div class="row">
+<!--                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <h4>Top 15 cash transfer by partner (No. individuals)</h4>
                     <div id="hdx-3W-who" class="hdx-3w-chart"></div>
-                </div>
+                </div> -->
 
                 <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="row">
+<!--                     <div class="row">
                         <h4>Cash transfer by cluster (No. individuals)</h4>
                         <div id="hdx-3W-what" class="hdx-3w-chart"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <hr>
